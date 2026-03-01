@@ -1,0 +1,14 @@
+# Unified Search - Python Dependencies
+
+# Core dependencies (built-in)
+# - json
+# - time
+# - hashlib
+# - subprocess
+# - re
+# - datetime
+# - concurrent.futures
+
+# Optional: For better HTTP handling
+requests>=2.28.0
+urllib3>=1.26.0

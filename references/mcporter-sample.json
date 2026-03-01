@@ -1,0 +1,22 @@
+{
+  "mcpServers": {
+    "web-search-prime": {
+      "type": "streamable-http",
+      "url": "https://open.bigmodel.cn/api/mcp/web_search_prime/mcp",
+      "headers": {
+        "Authorization": "Bearer YOUR_API_KEY_HERE"
+      }
+    },
+    "minimax-coding-plan": {
+      "command": "uvx",
+      "args": ["minimax-coding-plan-mcp", "-y"],
+      "env": {
+        "MINIMAX_API_KEY": "YOUR_MINIMAX_API_KEY",
+        "MINIMAX_API_HOST": "https://api.minimaxi.com"
+      }
+    },
+    "exa": {
+      "baseUrl": "https://mcp.exa.ai/mcp"
+    }
+  }
+}
