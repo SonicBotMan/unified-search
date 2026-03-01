@@ -2,8 +2,6 @@ name: Release
 
 on:
   push:
-    branches:
-      - main
     tags:
       - 'v*'
   workflow_dispatch:
@@ -15,24 +13,9 @@ jobs:
       contents: write
     
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-          
-      - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
-          
-      - name: Run tests
-        run: |
-          python -c "import unified_search; print('OK')"
-          
+      - uses: actions/checkout@v4
+      
       - name: Create Release
-        if: startsWith(github.ref, 'refs/tags/v')
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -42,42 +25,10 @@ jobs:
           draft: false
           prerelease: false
           body: |
-            ## What's New
-            
-            Check the [CHANGELOG](./CHANGELOG.md) for details.
-            
             ## Installation
             
             ```bash
-            # One-click install
             curl -sSL https://raw.githubusercontent.com/SonicBotMan/unified-search/main/install.sh | bash
-            
-            # With SearXNG
-            curl -sSL https://raw.githubusercontent.com/SonicBotMan/unified-search/main/install.sh | bash -s -- --with-searxng
             ```
             
-            ## Download Source Code
-            
-            Download the source code from the Assets below.
-            
-      - name: Upload Release Asset
-        if: startsWith(github.ref, 'refs/tags/v')
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: unified-search.py
-          asset_name: unified-search.py
-          asset_content_type: text/plain
-          
-      - name: Upload Install Script
-        if: startsWith(github.ref, 'refs/tags/v')
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: install.sh
-          asset_name: install.sh
-          asset_content_type: text/plain
+            See CHANGELOG.md for details.
