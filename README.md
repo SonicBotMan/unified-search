@@ -19,9 +19,13 @@ A powerful unified search tool that integrates multiple search engines with smar
 
 ## 🚀 Quick Start
 
-### One-Click Installation
+### One-Click Installation (Recommended)
 
 ```bash
+# With SearXNG included (recommended)
+curl -sSL https://raw.githubusercontent.com/SonicBotMan/unified-search/main/install.sh | bash -s -- --with-searxng
+
+# Basic installation
 curl -sSL https://raw.githubusercontent.com/SonicBotMan/unified-search/main/install.sh | bash
 ```
 
@@ -38,6 +42,43 @@ pip install -r requirements.txt
 # Run
 python unified-search.py "your search query"
 ```
+
+## 🐳 SearXNG Setup (Important!)
+
+SearXNG is a self-hosted metasearch engine that provides better privacy and control.
+
+### Option 1: Docker (Recommended)
+
+```bash
+# Quick start with Docker
+docker run -d --name searxng -p 8888:8080 searxng/searxng:latest
+```
+
+### Option 2: Docker Compose
+
+```yaml
+# docker-compose.yml
+version: '3'
+services:
+  searxng:
+    image: searxng/searxng:latest
+    container_name: searxng
+    ports:
+      - "8888:8080"
+    environment:
+      - SEARXNG_BASE_URL=http://localhost:8888
+    restart: unless-stopped
+```
+
+Then run: `docker-compose up -d`
+
+### Verify SearXNG
+
+```bash
+curl -s http://localhost:8888 | head -20
+```
+
+If you see HTML output, SearXNG is working!
 
 ## 📖 Usage
 
@@ -78,19 +119,20 @@ python unified-search.py --clear-cache
 
 ### Required Dependencies
 
-1. **mcporter** - For MCP server calls (GLM, exa, etc.)
+1. **Python 3.7+**
+2. **mcporter** - For MCP server calls (optional, for GLM search)
    ```bash
    npm install -g mcporter
    ```
 
-2. **GLM webSearchPrime** - Chinese search (requires API key)
+3. **GLM webSearchPrime** - Chinese search (optional, requires API key)
    - Get API key from: https://open.bigmodel.cn
    - Configure in mcporter.json
 
-3. **SearXNG** - Self-hosted meta search engine
-   - Run locally or use public instance
-   
-4. **GitHub API** - For code search (no key required for public repos)
+4. **SearXNG** - Self-hosted meta search engine (optional but recommended)
+   - See Setup section above
+
+5. **GitHub API** - For code search (no key required for public repos)
 
 ### Optional: OpenClaw Integration
 

@@ -19,9 +19,13 @@
 
 ## 🚀 快速开始
 
-### 一键安装
+### 一键安装（推荐）
 
 ```bash
+# 含 SearXNG 部署（推荐）
+curl -sSL https://raw.githubusercontent.com/SonicBotMan/unified-search/main/install.sh | bash -s -- --with-searxng
+
+# 基础安装
 curl -sSL https://raw.githubusercontent.com/SonicBotMan/unified-search/main/install.sh | bash
 ```
 
@@ -38,6 +42,43 @@ pip install -r requirements.txt
 # 运行
 python unified-search.py "你的搜索关键词"
 ```
+
+## 🐳 SearXNG 部署（重要！）
+
+SearXNG 是一个自托管的元搜索引擎，提供更好的隐私和控制。
+
+### 方式1：Docker（推荐）
+
+```bash
+# 快速启动
+docker run -d --name searxng -p 8888:8080 searxng/searxng:latest
+```
+
+### 方式2：Docker Compose
+
+```yaml
+# docker-compose.yml
+version: '3'
+services:
+  searxng:
+    image: searxng/searxng:latest
+    container_name: searxng
+    ports:
+      - "8888:8080"
+    environment:
+      - SEARXNG_BASE_URL=http://localhost:8888
+    restart: unless-stopped
+```
+
+运行：`docker-compose up -d`
+
+### 验证 SearXNG
+
+```bash
+curl -s http://localhost:8888 | head -20
+```
+
+如果看到 HTML 输出，说明 SearXNG 正在工作！
 
 ## 📖 使用方法
 
@@ -78,19 +119,20 @@ python unified-search.py --clear-cache
 
 ### 必需依赖
 
-1. **mcporter** - MCP 服务器调用工具
+1. **Python 3.7+**
+2. **mcporter** - MCP 服务器调用工具（可选，用于 GLM 搜索）
    ```bash
    npm install -g mcporter
    ```
 
-2. **GLM webSearchPrime** - 中文搜索（需要 API Key）
+3. **GLM webSearchPrime** - 中文搜索（可选，需要 API Key）
    - 获取 API Key：https://open.bigmodel.cn
    - 在 mcporter.json 中配置
 
-3. **SearXNG** - 自托管元搜索引擎
-   - 本地运行或使用公共实例
-   
-4. **GitHub API** - 代码搜索（公开仓库无需 Key）
+4. **SearXNG** - 自托管元搜索引擎（可选但推荐）
+   - 见上文部署说明
+
+5. **GitHub API** - 代码搜索（公开仓库无需 Key）
 
 ### 可选：OpenClaw 集成
 
